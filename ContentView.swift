@@ -5,6 +5,7 @@
 //  Created by عبدالله on 13/08/2025.
 //
 import SwiftUI
+
 struct ContentView: View {
     @State var showingGrid : Bool = true
     let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
@@ -17,9 +18,9 @@ struct ContentView: View {
         NavigationStack {
             Group {
                 if showingGrid {
-                    GridView()
+                    GridView(astronauts: astronauts, missions: missions)
                 } else {
-                    ListView()
+                    ListView(astronauts: astronauts, missions: missions)
                 }
             }
             .navigationTitle("Moonshot")
@@ -35,6 +36,9 @@ struct ContentView: View {
                         .background(.purple)
                         .clipShape(.rect(cornerRadius: 5))
                 }
+            }
+            .navigationDestination(for: Mission.self) { mission in
+                MissionView(mission: mission, astronauts: astronauts)
             }
         }
     }
